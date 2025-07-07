@@ -98,11 +98,17 @@
         metadata: { phone_number: phone },
         target: '#chat-container',
         mode: 'fullscreen',
-        showWelcomeScreen: true,
+        showWelcomeScreen: false,
         defaultLanguage: 'en',
-        theme: {
-          color: '#a88ef0'
-        }
+        i18n: {
+		en: {
+			title: 'Welome to Drift!',
+			subtitle: "What are you looking for?",
+			footer: '',
+			getStarted: 'New Conversation',
+			inputPlaceholder: 'Type your question..',
+		},
+        
       });
     });
   </script>
