@@ -2,41 +2,41 @@
 <html>
 <head>
   <meta charset="UTF-8" />
-  <title>Start Chat</title>
+  <title>Jordan Login + Chat</title>
+  <link
+    href="https://cdn.jsdelivr.net/npm/@n8n/chat/dist/style.css"
+    rel="stylesheet"
+  />
 </head>
 <body>
-  <h1>Start Chat</h1>
   <form id="login-form">
-    <label for="phone">Enter your phone number:</label>
-    <input type="text" id="phone" name="phone" required />
+    <label>Enter your phone number:</label>
+    <input type="text" id="phone" required />
     <button type="submit">Start Chat</button>
   </form>
 
-  <!-- Load the n8n Chat Widget -->
+  <div id="chat-container"></div>
+
   <script type="module">
-    import N8nChat from "https://cdn.jsdelivr.net/npm/@n8n/chat@0.1.1-beta.2/dist/web.js";
-    
-    let chatWidget;
+    import { createChat } from 'https://cdn.jsdelivr.net/npm/@n8n/chat/dist/chat.bundle.es.js';
 
-    async function loadChat(phoneNumber) {
-      chatWidget = await N8nChat.createChat({
-        webhookUrl: "https://discretelogic.app.n8n.cloud/webhook/37fd8a3c-e59e-4016-99e7-f5c5f0c2e24c/chat",
-        theme: {
-          color: "#00a86b",
-        },
-        data: {
-          phone_number: phoneNumber
-        }
+    document.getElementById("login-form")
+      .addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const phone = document.getElementById("phone").value.trim();
+        if (!phone) return;
+
+        document.getElementById("login-form").style.display = 'none';
+
+        createChat({
+          webhookUrl: "https://discretelogic.app.n8n.cloud/webhook/37fd8a3c-e59e-4016-99e7-f5c5f0c2e24c/chat",
+          metadata: { phone_number: phone },
+          target: '#chat-container',
+          mode: 'window',
+          showWelcomeScreen: true,
+          defaultLanguage: 'en',
+        });
       });
-    }
-
-    document.getElementById("login-form").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const phone = document.getElementById("phone").value.trim();
-      if (phone) {
-        loadChat(phone);
-      }
-    });
   </script>
 </body>
 </html>
