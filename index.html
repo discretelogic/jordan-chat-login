@@ -1,39 +1,42 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <title>Jordan Chat Login</title>
-  <script src="https://unpkg.com/@n8n/chat@0.2.0/dist/chat.bundle.umd.js"></script>
+  <title>Start Chat</title>
 </head>
 <body>
-  <h2>Start Chat</h2>
-  <label for="phone">Enter your phone number:</label>
-  <input type="text" id="phone" name="phone" />
-  <button onclick="startChat()">Start Chat</button>
+  <h1>Start Chat</h1>
+  <form id="login-form">
+    <label for="phone">Enter your phone number:</label>
+    <input type="text" id="phone" name="phone" required />
+    <button type="submit">Start Chat</button>
+  </form>
 
-  <script>
-    function startChat() {
-      const phone = document.getElementById('phone').value;
+  <!-- Load the n8n Chat Widget -->
+  <script type="module">
+    import N8nChat from "https://cdn.jsdelivr.net/npm/@n8n/chat@latest/dist/web.js";
 
-      if (!phone) {
-        alert("Please enter your phone number.");
-        return;
-      }
+    let chatWidget;
 
-      const chat = window.N8nChat;
-      if (!chat || !chat.createChat) {
-        alert("Chat widget not ready yet.");
-        return;
-      }
-
-      chat.createChat({
-        chatId: "37fd8a3c-e59e-4016-99e7-f5c5f0c2e24c",
-        baseUrl: "https://discretelogic.app.n8n.cloud",
+    async function loadChat(phoneNumber) {
+      chatWidget = await N8nChat.createChat({
+        webhookUrl: "https://discretelogic.app.n8n.cloud/webhook/37fd8a3c-e59e-4016-99e7-f5c5f0c2e24c/chat",
+        theme: {
+          color: "#00a86b",
+        },
         data: {
-          phone_number: phone
+          phone_number: phoneNumber
         }
       });
     }
+
+    document.getElementById("login-form").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const phone = document.getElementById("phone").value.trim();
+      if (phone) {
+        loadChat(phone);
+      }
+    });
   </script>
 </body>
 </html>
