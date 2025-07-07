@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Jordan Chat Login</title>
+  <script src="https://unpkg.com/@n8n/chat@0.2.0/dist/chat.bundle.umd.js"></script>
+</head>
+<body>
+  <h2>Start Chat</h2>
+  <label for="phone">Enter your phone number:</label>
+  <input type="text" id="phone" name="phone" />
+  <button onclick="startChat()">Start Chat</button>
+
+  <script>
+    function startChat() {
+      const phone = document.getElementById('phone').value;
+
+      if (!phone) {
+        alert("Please enter your phone number.");
+        return;
+      }
+
+      const chat = window.N8nChat;
+      if (!chat || !chat.createChat) {
+        alert("Chat widget not ready yet.");
+        return;
+      }
+
+      chat.createChat({
+        chatId: "37fd8a3c-e59e-4016-99e7-f5c5f0c2e24c",
+        baseUrl: "https://discretelogic.app.n8n.cloud",
+        data: {
+          phone_number: phone
+        }
+      });
+    }
+  </script>
+</body>
+</html>
